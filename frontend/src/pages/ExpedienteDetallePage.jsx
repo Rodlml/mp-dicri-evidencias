@@ -6,7 +6,9 @@ import useAuthStore from '../store/authStore';
 function ExpedienteDetallePage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, logout } = useAuthStore();
+  const { user, logout } = useAuthStore();  
+  
+  const esCoordinador = user?.rol === 'coordinador';
 
   const [expediente, setExpediente] = useState(null);
   const [indicios, setIndicios] = useState([]);
@@ -115,6 +117,16 @@ function ExpedienteDetallePage() {
           <span className="text-sm">
             {user ? `Hola, ${user.nombre} (${user.rol})` : ''}
           </span>
+
+          {esCoordinador && (
+            <Link
+              to="/reportes"
+              className="text-sm bg-emerald-500 hover:bg-emerald-600 px-3 py-1 rounded"
+            >
+              Ver reportes
+            </Link>
+          )}
+
           <button
             onClick={handleLogout}
             className="text-sm bg-red-500 hover:bg-red-600 px-3 py-1 rounded"
@@ -319,9 +331,6 @@ function ExpedienteDetallePage() {
                       {ind.fecha_registro
                         ? new Date(ind.fecha_registro).toLocaleString()
                         : ''}
-                    </td>
-                    <td className="px-4 py-2">
-                      {ind.nombre_tecnico || '—'}
                     </td>
                   </tr>
                 ))}

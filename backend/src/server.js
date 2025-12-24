@@ -7,7 +7,7 @@ const reporteRoutes = require('./routes/reporte.routes');
 
 require('dotenv').config();
 
-console.log("🧪 ENV TEST");
+console.log("ENV TEST");
 console.log("DB_HOST:", process.env.DB_HOST);
 console.log("DB_USER:", process.env.DB_USER);
 console.log("DB_NAME:", process.env.DB_NAME);
@@ -74,5 +74,5 @@ app.get('/api/health', async (req, res) => {
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
-  console.log(`🚀 API escuchando en el puerto ${PORT}`);
+  console.log(`API escuchando en el puerto ${PORT}`);
 });

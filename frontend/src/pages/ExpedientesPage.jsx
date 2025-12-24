@@ -3,7 +3,7 @@ import api from '../services/api';
 import useAuthStore from '../store/authStore';
 import { Link } from 'react-router-dom';
 
-const ESTADOS = ['pendiente', 'aprobado', 'rechazado'];
+const ESTADOS = ['en_revision', 'aprobado', 'rechazado'];
 
 function ExpedientesPage() {
   const { user, logout } = useAuthStore();
@@ -185,6 +185,9 @@ function ExpedientesPage() {
                   <th className="px-4 py-2 text-left font-semibold text-slate-700">
                     Acciones
                   </th>
+                  <th className="px-4 py-2 text-left font-semibold text-slate-700">
+                    Detalle
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -192,7 +195,7 @@ function ExpedientesPage() {
                   <tr key={exp.id_expediente} className="border-b last:border-0">
                     <td className="px-4 py-2">{exp.id_expediente}</td>
                     <td className="px-4 py-2">{exp.numero_expediente}</td>
-                    <td className="px-4 py-2 capitalize">{exp.estado}</td>
+                    <td className="px-4 py-2 capitalize">{exp.estado == 'en_revision' ? 'En Revisión' : exp.estado}</td>
                     <td className="px-4 py-2">
                       {exp.fecha_registro
                         ? new Date(exp.fecha_registro).toLocaleString()
@@ -204,6 +207,7 @@ function ExpedientesPage() {
                           <button
                             key={estado}
                             disabled={loadingEstadoId === exp.id_expediente}
+                            
                             onClick={() =>
                               handleCambiarEstado(exp.id_expediente, estado)
                             }
@@ -213,18 +217,19 @@ function ExpedientesPage() {
                                 : 'bg-white hover:bg-slate-100 border-slate-300'
                             } disabled:opacity-50`}
                           >
-                            {estado}
+                            {estado == 'en_revision' ? 'pendiente' : estado}
                           </button>
                         ))}
+                      </div>
+                    </td>
 
+                    <td className="px-4 py-2">  
                         <Link
                           to={`/expedientes/${exp.id_expediente}`}
                           className="text-xs px-2 py-1 rounded border bg-white hover:bg-slate-100 border-slate-300"
                         >
                           Ver detalle
                         </Link>
-                        
-                      </div>
                     </td>
                   </tr>
                 ))}
